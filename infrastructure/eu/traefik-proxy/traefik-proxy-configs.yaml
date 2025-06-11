@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+data:
+  dynamic.yaml: |
+    http:
+      services:
+        foobar-public:
+          weighted:
+            healthcheck: {}
+            services:
+            - name: foobar-eu
+              weight: 1
+            - name: foobar-us
+              weight: 3
+
+        foobar-eu:
+          loadBalancer:
+            servers:
+              - url: "http://foobar.apps.svc.cluster.local:80"
+            healthCheck:
+              scheme: http
+              interval: 2s
+              timeout: 1s
+              path: /ping
+
+        foobar-us:
+          loadBalancer:
+            servers:
+              - url: "http://foobar-us.cloud.local"
+            healthCheck:
+              scheme: https
+              interval: 2s
+              timeout: 1s
+              path: /ping
+              hostname: foobar-us.cloud.local
+
+      routers:
+        foobar-router:
+          entryPoints:
+            - websecure
+          rule: Host(`foobar.cloud.local`) || PathPrefix(`/foobar`)
+          service: foobar-public
+          tls:
+            certResolver: le-staging
+kind: ConfigMap
+metadata:
+  name: traefik-proxy-configs
+  namespace: traefik

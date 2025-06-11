@@ -1,0 +1,45 @@
+---
+ports:
+  websecure:
+    tls:
+      enabled: true
+providers:
+  kubernetesCRD:
+    allowCrossNamespace: true
+    allowExternalNameServices: true
+  kubernetesIngress:
+    publishedService:
+      enabled: true
+      pathOverride: traefik-system/traefik
+    allowExternalNameServices: true
+
+ingressRoute:
+  dashboard:
+    enabled: true
+    entryPoints: ["web", "websecure"]
+
+persistence:
+  enabled: true
+  # storageClass: "" # TODO: make it available across multiple clusters.
+
+additionalArguments:
+  - "--api.insecure=true"
+  - "--providers.file.filename=/config/dynamic.yaml"
+
+# volumes:
+#   - name: '{{ printf "%s-configs" .Release.Name }}'
+#     mountPath: "/config"
+#     type: configMap
+
+certificatesResolvers:
+  le-staging:
+    acme:
+      email: dev@gmail.com
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      storage: /data/acme.json
+      tlsChallenge: true
+
+tlsStore:
+  default:
+    defaultCertificate:
+      secretName: traefik-crt

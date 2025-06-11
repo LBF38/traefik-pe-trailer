@@ -1,0 +1,27 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: foobar-http
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`foobar-us.cloud.local`) || PathPrefix(`/foobar-us`)
+      services:
+        - name: foobar
+          port: 80
+      # middlewares:
+      #   - name: redirect-scheme-permanent
+      #     namespace: traefik-system
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: foobar-https
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`foobar-us.cloud.local`) || PathPrefix(`/foobar-us`)
+      services:
+        - name: foobar
+          port: 80

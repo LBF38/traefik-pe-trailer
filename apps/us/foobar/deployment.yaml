@@ -1,0 +1,13 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foobar
+spec:
+  template:
+    spec:
+      containers:
+        - name: foobar
+          env:
+            - name: WHOAMI_NAME
+              value: FOO-US

@@ -1,0 +1,19 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: foobar-http
+spec:
+  entryPoints:
+    - web
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: foobar-https
+spec:
+  entryPoints:
+    - websecure
+  tls:
+    certResolver: le-staging
+  #   secretName: foobar-crt

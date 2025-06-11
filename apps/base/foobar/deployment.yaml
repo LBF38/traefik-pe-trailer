@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: foobar
+  name: foobar
+spec:
+  selector:
+    matchLabels:
+      app: foobar
+  template:
+    metadata:
+      labels:
+        app: foobar
+    spec:
+      containers:
+        - image: ghcr.io/lbf38/foobar-api:master
+          imagePullPolicy: Always # only for this demo, to make tests on the foobar-api image/app
+          name: foobar
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+              path: "/health"
+              port: 80
+              scheme: HTTP
+          readinessProbe:
+            httpGet:
+              path: "/health"
+              port: 80
+              scheme: HTTP
+          resources:
+            requests:
+              cpu: 120m
+              memory: 128Mi
+            limits:
+              cpu: 150m
+              memory: 256Mi
