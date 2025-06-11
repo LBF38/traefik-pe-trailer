@@ -11,7 +11,7 @@ data:
             - name: foobar-eu
               weight: 1
             - name: foobar-us
-              weight: 3
+              weight: 1
 
         foobar-eu:
           loadBalancer:
@@ -21,17 +21,18 @@ data:
               scheme: http
               interval: 2s
               timeout: 1s
-              path: /ping
+              path: /health
 
         foobar-us:
           loadBalancer:
             servers:
-              - url: "http://foobar-us.cloud.local"
+              - url: "http://10.255.255.254:81/foobar-us"
+                preservePath: true
             healthCheck:
-              scheme: https
-              interval: 2s
-              timeout: 1s
-              path: /ping
+              scheme: http
+              interval: 10s
+              timeout: 5s
+              path: /health
               hostname: foobar-us.cloud.local
 
       routers:
