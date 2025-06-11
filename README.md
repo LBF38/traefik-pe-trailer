@@ -57,13 +57,19 @@ For tackling this problem, I'll be using the following tools:
 
 ## Bugs
 
-> [!WARNING] Load balancing across clusters
+### Load balancing across clusters
+
+> [!WARNING]
+>
 > This feature isn't ready yet.
 > The Traefik dynamic configuration is defined [in this file](./infrastructure/eu/traefik-proxy/traefik-proxy-configs.yaml) for load balancing across clusters but there are some issues with DNS resolving and network connectivity between clusters.
 
 ## Enhancements
 
-> [!TIP] Distributed ACME
+### Distributed ACME
+
+> [!TIP]
+>
 > Currently, the certificates are independantly managed by each cluster.
 > A better solution would be to have shared certificates across all clusters.
 >
@@ -71,14 +77,23 @@ For tackling this problem, I'll be using the following tools:
 >
 > Traefik can offer this distributed ACME with Traefik Hub. [See the configuration in the documentation](https://doc.traefik.io/traefik-hub/api-gateway/secure/tls/letsencrypt#configuring-distributed-acme).
 
-> [!TIP] ClusterAPI
+### ClusterAPI
+
+> [!TIP]
+>
 > Make use of [ClusterAPI](https://cluster-api.sigs.k8s.io/) to have Kubernetes Clusters as a Service.
 >
 
-> [!TIP] Security
+### Security
+
+> [!TIP]
+>
 > Enhance pod and cluster security by fine-tuning each k8s component to have least-priviledges.
 
-> [!TIP] Observability
+### Observability
+
+> [!TIP]
+>
 > Instrument and monitor apps, infra and cluster telemetry to better manage cloud resources.
 >
 > This can be implemented using [OpenTelemetry](https://opentelemetry.io) and stored in tools like [Grafana](https://grafana.com), [Jaeger](https://jaegertracing.io) and [Prometheus](https://prometheus.io) among others.
